@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
@@ -90,6 +92,129 @@ namespace CodeBuns.Dotnet.Common.Extensions
             }
 
             return sb.ToString();
+        }
+
+        public static bool TextIsHTML(this string source)
+        {
+            if (string.IsNullOrEmpty(source))
+                return false;
+
+            // Simple regex to check for HTML tags
+            var regex = new Regex("<(.*?)>", RegexOptions.Multiline);
+
+            return regex.IsMatch(source);
+        }
+
+        public static string DeleteHTMLTags(this string sourceText)
+        {
+            if (string.IsNullOrWhiteSpace(sourceText))
+                return string.Empty;
+
+            var regex = new Regex(@"<[^>]+>", RegexOptions.Multiline | RegexOptions.IgnoreCase);
+            var result = regex.Replace(sourceText, " ");
+            result = Regex.Replace(result, @"\s+", " ").Trim();
+
+            return result;
+        }
+
+        public static bool IsJson(string text)
+        {
+            try
+            {
+                JToken.Parse(text);
+                return true;
+            }
+            catch (JsonReaderException ex)
+            {
+                return false;
+            }
+        }
+
+        public static bool IsCyrillicText(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return false;
+
+            if (text.Length > 100)
+                text = text.Substring(0, 70);
+
+            return Regex.IsMatch(text, @"\p{IsCyrillic}");
+        }
+
+        public static string ConvertCyrillicToLatin(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return string.Empty;
+
+            text = text
+                .Replace("Я", "Ja")
+                .Replace("Ю", "Ju")
+                .Replace("Э", "E")
+                .Replace("Ы", "Y")
+                .Replace("Ъ", "")
+                .Replace("Щ", "Sch")
+                .Replace("Ш", "Sh")
+                .Replace("Ч", "Ch")
+                .Replace("Ц", "C")
+                .Replace("Х", "H")
+                .Replace("Ф", "F")
+                .Replace("У", "U")
+                .Replace("Т", "T")
+                .Replace("С", "S")
+                .Replace("Р", "R")
+                .Replace("П", "P")
+                .Replace("О", "O")
+                .Replace("Н", "N")
+                .Replace("М", "M")
+                .Replace("Л", "L")
+                .Replace("К", "K")
+                .Replace("Й", "J")
+                .Replace("И", "I")
+                .Replace("З", "Z")
+                .Replace("Ж", "Zh")
+                .Replace("Ё", "E")
+                .Replace("Е", "E")
+                .Replace("Д", "D")
+                .Replace("Г", "G")
+                .Replace("В", "V")
+                .Replace("Б", "B")
+                .Replace("А", "A")
+
+                .Replace("я", "ja")
+                .Replace("ю", "ju")
+                .Replace("э", "e")
+                .Replace("ь", "j")
+                .Replace("ы", "y")
+                .Replace("ъ", "")
+                .Replace("щ", "sch")
+                .Replace("ш", "sh")
+                .Replace("ч", "ch")
+                .Replace("ц", "c")
+                .Replace("х", "h")
+                .Replace("ф", "f")
+                .Replace("у", "u")
+                .Replace("т", "t")
+                .Replace("с", "s")
+                .Replace("р", "r")
+                .Replace("п", "p")
+                .Replace("о", "o")
+                .Replace("н", "n")
+                .Replace("м", "m")
+                .Replace("л", "l")
+                .Replace("к", "k")
+                .Replace("й", "j")
+                .Replace("и", "i")
+                .Replace("з", "z")
+                .Replace("ж", "zh")
+                .Replace("ё", "e")
+                .Replace("е", "e")
+                .Replace("д", "d")
+                .Replace("г", "g")
+                .Replace("в", "v")
+                .Replace("б", "b")
+                .Replace("а", "a");
+
+            return text;
         }
 
         public static string ObjectProperties(this object obj, int indentLevel = 0)
