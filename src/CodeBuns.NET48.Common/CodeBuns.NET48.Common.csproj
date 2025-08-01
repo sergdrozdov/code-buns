@@ -31,7 +31,11 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.3\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -41,7 +45,29 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MailSender\Configurations\DatabaseSmtpConfiguration.cs" />
+    <Compile Include="MailSender\Configurations\ISmtpConfiguration.cs" />
+    <Compile Include="MailSender\Configurations\JsonSmtpConfiguration.cs" />
+    <Compile Include="MailSender\Configurations\WebConfigSmtpConfiguration.cs" />
+    <Compile Include="MailSender\Configurations\WebConfig\SmtpProviderCollection.cs" />
+    <Compile Include="MailSender\Configurations\WebConfig\SmtpProviderElement.cs" />
+    <Compile Include="MailSender\Configurations\WebConfig\SmtpProvidersSection.cs" />
+    <Compile Include="MailSender\Examples\SendMail.cs" />
+    <Compile Include="MailSender\MailAgent.cs" />
+    <Compile Include="MailSender\Services\IMailService.cs" />
+    <Compile Include="MailSender\Services\MailgunMailService.cs" />
+    <Compile Include="MailSender\Services\SendGridMailService.cs" />
+    <Compile Include="MailSender\SmtpProvider.cs" />
+    <Compile Include="MailSender\SmtpSettings.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <None Include="MailSender\Examples\appsettings.json" />
+    <None Include="MailSender\Examples\web.config" />
+    <None Include="MailSender\README.MD" />
+    <None Include="MailSender\Services\README.MD" />
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

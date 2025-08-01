@@ -1,0 +1,2 @@
+These services are used to send emails using the SMTP protocol. They can be configured to use different SMTP servers and authentication methods,
+specific logic for SMTP configuration, and email sending functionality.

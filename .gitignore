@@ -6,3 +6,5 @@
 /src/CodeBuns.Dotnet.Common.Tests/obj
 /src/CodeBuns.NET48.Common/bin
 /src/CodeBuns.NET48.Common/obj
+/src/packages
+*.user
