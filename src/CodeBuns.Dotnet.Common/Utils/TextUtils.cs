@@ -31,6 +31,27 @@ namespace CodeBuns.Dotnet.Common
             return text;
         }
 
+        public static string MaskEmailAddress(string email, int visibleStart = 4, int visibleEnd = 2)
+        {
+            if (string.IsNullOrEmpty(email) || !email.Contains("@"))
+                throw new ArgumentException("Invalid email format.");
 
+            var atIndex = email.IndexOf('@');
+            var localPart = email.Substring(0, atIndex);
+            var domainPart = email.Substring(atIndex);
+
+            // If the local part is shorter than the visible characters, mask the whole part
+            if (localPart.Length <= visibleStart + visibleEnd)
+                return new string('*', localPart.Length) + domainPart;
+
+            // Leave the first 'visibleStart' characters and the last 'visibleEnd' characters visible
+            var start = localPart.Substring(0, visibleStart);
+            var end = localPart.Substring(localPart.Length - visibleEnd);
+
+            // Mask the middle part
+            var maskedMiddle = new string('*', localPart.Length - visibleStart - visibleEnd);
+
+            return $"{start}{maskedMiddle}{end}{domainPart}";
+        }
     }
 }
